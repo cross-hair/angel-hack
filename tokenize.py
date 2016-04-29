@@ -14,15 +14,15 @@ emoticons_str = r"""
  
 regex_str = [
     emoticons_str,
-    r'<[^>]+>', # HTML tags
-    r'(?:@[\w_]+)', # @-mentions
-    r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)", # hash-tags
+    r'<[^>]+>', # get HTML tags
+    r'(?:@[\w_]+)', #  get @-mentions
+    r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)", # get hash-tags
     r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', # URLs
  
-    r'(?:(?:\d+,?)+(?:\.?\d+)?)', # numbers
-    r"(?:[a-z][a-z'\-_]+[a-z])", # words with - and '
-    r'(?:[\w_]+)', # other words
-    r'(?:\S)' # anything else
+    r'(?:(?:\d+,?)+(?:\.?\d+)?)', #  get numbers
+    r"(?:[a-z][a-z'\-_]+[a-z])", # get  words with - and '
+    r'(?:[\w_]+)', #  get other words
+    r'(?:\S)' # get anything else
 ]
     
 tokens_re = re.compile(r'('+'|'.join(regex_str)+')', re.VERBOSE | re.IGNORECASE)
@@ -44,10 +44,20 @@ def frequency(self, data):
             tweet = json.loads(line)
             terms_all = [term for term in preprocess(tweet['text'])]
             count_all.update(terms_all)
-            print(count_all.most_common(5))
+            #print(count_all.most_common(100))
+            try:
+                with open('readable.json', 'a') as f:
+                    data = ''.join(terms_all)
+                    f.write(data)
+                    print(data)
+                    return True
+            except BaseException as e:
+                print("Error on_data: %s" % str(e))
+            return True
+ 
 
 if __name__ == '__main__':
     tokenize('s')
-    preprocess('s')
+    preprocess('s', 's')
     frequency('s', 's')
 

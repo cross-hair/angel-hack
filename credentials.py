@@ -1,0 +1,10 @@
+import tweepy
+from tweepy import OAuthHandler
+
+consumer_key="vbVNn5dD30Uxu2c0z74A0ZQ9S"
+consumer_sugnature="n2U0SseHBbhO3ksKKk94PU13FTN3iMndFSfbIQSB2WuivNXSQY"
+access_token="252637843-cWmA9RRF9P3PsjxVJ1yMJo7Lgnh7XBGIMVLPUeeS"
+access_signaure="J9KjXzdSFI4hDCR8QlnlUwycHghfw0hpIxAUO4ULa11ky"
+auth=OAuthHandler(consumer_key, consumer_sugnature)
+auth.set_access_token(access_token, access_signaure)
+

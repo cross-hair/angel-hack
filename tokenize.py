@@ -1,5 +1,9 @@
 import json
-import re # import regex
+import re
+import operator 
+import json
+from collections import Counter
+
  
 emoticons_str = r"""
     (?:
@@ -11,14 +15,14 @@ emoticons_str = r"""
 regex_str = [
     emoticons_str,
     r'<[^>]+>', # get HTML tags
-    r'(?:@[\w_]+)', # get @-mentions
+    r'(?:@[\w_]+)', #  get @-mentions
     r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)", # get hash-tags
-    r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', # get URLs
+    r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', # URLs
  
     r'(?:(?:\d+,?)+(?:\.?\d+)?)', #  get numbers
-    r"(?:[a-z][a-z'\-_]+[a-z])", #  get words with - and '
+    r"(?:[a-z][a-z'\-_]+[a-z])", # get  words with - and '
     r'(?:[\w_]+)', #  get other words
-    r'(?:\S)' #  get anything else
+    r'(?:\S)' # get anything else
 ]
     
 tokens_re = re.compile(r'('+'|'.join(regex_str)+')', re.VERBOSE | re.IGNORECASE)
@@ -32,24 +36,28 @@ def preprocess(s, lowercase=False):
     if lowercase:
         tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
     return tokens
-    try:
-        with open('stream.json', 'r') as r:
-            for line in r:
-                tweet=json.loads(line)
-                tokens=preprocess(tweet['text'])
-                print(tokens)
+def frequency(self, data):
+    fname = 'stream.json'
+    with open(fname, 'r') as f:
+        count_all = Counter()
+        for line in f:
+            tweet = json.loads(line)
+            terms_all = [term for term in preprocess(tweet['text'])]
+            count_all.update(terms_all)
+            #print(count_all.most_common(100))
+            try:
+                with open('readable.json', 'a') as f:
+                    data = ''.join(terms_all)
+                    f.write(data)
+                    print(data)
+                    return True
+            except BaseException as e:
+                print("Error on_data: %s" % str(e))
+            return True
  
-def write(self, data):
-    try:
-        with open('stream.json', 'r') as r:
-            for line in r:
-                tweet=json.loads(line)
-                tokens=preprocess(tweet['text'])
-                with open('readable.json', 'a') as w:
-                    w.write(tokens)
-                    print(tokens)
 
 if __name__ == '__main__':
-    tokenize()
-    preprocess()
-    write()
+    tokenize('s')
+    preprocess('s', 's')
+    frequency('s', 's')
+

@@ -49,15 +49,37 @@ def frequency(self, data):
                 with open('readable.json', 'a') as f:
                     data = ''.join(terms_all)
                     f.write(data)
-                    print(data)
+                    #print(data)
                     return True
             except BaseException as e:
                 print("Error on_data: %s" % str(e))
             return True
- 
+
+def template(self, data):
+    fname = 'stream.json'
+    with open(fname, 'r') as f:
+        data = {
+        "type": "SurvaillanceData",
+        "features": []
+    }
+        for line in f:
+            tweet = json.loads(line)
+            if tweet['coordinates']:
+                dictionary_elements = {
+                "Tag": "Geolocation",
+                "coordinates": tweet['coordinates[1]'],
+                "properties": {
+                    "text": tweet['text'],
+                    "created_at": tweet['created_at']
+                    }
+                }
+                data['features'].append(dictionary_elements)
+                with open('data.json', 'w') as f:
+                    f.write(json.dumps(data, indent=4))
 
 if __name__ == '__main__':
     tokenize('s')
     preprocess('s', 's')
     frequency('s', 's')
+    template('s', 's')
 

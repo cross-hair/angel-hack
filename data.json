@@ -1,0 +1,38 @@
+{
+    "features": [
+        {
+            "geometry": {
+                "coordinates": [
+                    -72.6747,
+                    41.702
+                ],
+                "type": "Point"
+            },
+            "type": "Feature",
+            "properties": {
+                "created_at": "Fri Apr 29 11:46:19 +0000 2016",
+                "text": "#Views @ Wethersfield, Connecticut https://t.co/Er2tNJkngm"
+            }
+        }
+    ],
+    "type": "SurvaillanceData"
+}
+{
+    "features": [
+        {
+            "coordinates": {
+                "coordinates": [
+                    -72.6747,
+                    41.702
+                ],
+                "type": "Point"
+            },
+            "Tag": "Geolocation",
+            "properties": {
+                "created_at": "Fri Apr 29 11:46:19 +0000 2016",
+                "text": "#Views @ Wethersfield, Connecticut https://t.co/Er2tNJkngm"
+            }
+        }
+    ],
+    "type": "SurvaillanceData"
+}

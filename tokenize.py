@@ -1,5 +1,9 @@
 import json
-import re # import regex
+import re
+import operator 
+import json
+from collections import Counter
+
  
 emoticons_str = r"""
     (?:
@@ -10,15 +14,15 @@ emoticons_str = r"""
  
 regex_str = [
     emoticons_str,
-    r'<[^>]+>', # get HTML tags
-    r'(?:@[\w_]+)', # get @-mentions
-    r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)", # get hash-tags
-    r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', # get URLs
+    r'<[^>]+>', # HTML tags
+    r'(?:@[\w_]+)', # @-mentions
+    r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)", # hash-tags
+    r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', # URLs
  
-    r'(?:(?:\d+,?)+(?:\.?\d+)?)', #  get numbers
-    r"(?:[a-z][a-z'\-_]+[a-z])", #  get words with - and '
-    r'(?:[\w_]+)', #  get other words
-    r'(?:\S)' #  get anything else
+    r'(?:(?:\d+,?)+(?:\.?\d+)?)', # numbers
+    r"(?:[a-z][a-z'\-_]+[a-z])", # words with - and '
+    r'(?:[\w_]+)', # other words
+    r'(?:\S)' # anything else
 ]
     
 tokens_re = re.compile(r'('+'|'.join(regex_str)+')', re.VERBOSE | re.IGNORECASE)
@@ -32,24 +36,18 @@ def preprocess(s, lowercase=False):
     if lowercase:
         tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
     return tokens
-    try:
-        with open('stream.json', 'r') as r:
-            for line in r:
-                tweet=json.loads(line)
-                tokens=preprocess(tweet['text'])
-                print(tokens)
- 
-def write(self, data):
-    try:
-        with open('stream.json', 'r') as r:
-            for line in r:
-                tweet=json.loads(line)
-                tokens=preprocess(tweet['text'])
-                with open('readable.json', 'a') as w:
-                    w.write(tokens)
-                    print(tokens)
+def frequency(self, data):
+    fname = 'stream.json'
+    with open(fname, 'r') as f:
+        count_all = Counter()
+        for line in f:
+            tweet = json.loads(line)
+            terms_all = [term for term in preprocess(tweet['text'])]
+            count_all.update(terms_all)
+            print(count_all.most_common(5))
 
 if __name__ == '__main__':
-    tokenize()
-    preprocess()
-    write()
+    tokenize('s')
+    preprocess('s')
+    frequency('s', 's')
+

@@ -59,24 +59,22 @@ def template(self, data):
     fname = 'stream.json'
     with open(fname, 'r') as f:
         data = {
-        "type": "SurvaillanceData",
-        "features": []
-    }
+        "type": "crosshair",
+        "mark": []
+        }
         for line in f:
             tweet = json.loads(line)
             if tweet['coordinates']:
-                dictionary_elements = {
-                "Tag": "Geolocation",
-                "coordinates": tweet['coordinates[1]'],
+                geo_json_feature = {
+                "type": "Feature",
+                "geometry": tweet['coordinates'],
                 "properties": {
                     "text": tweet['text'],
                     "created_at": tweet['created_at']
-                    }
-                }
-                data['features'].append(dictionary_elements)
+                }}
+                data['mark'].append(geo_json_feature)
                 with open('data.json', 'w') as f:
                     f.write(json.dumps(data, indent=4))
-
 if __name__ == '__main__':
     tokenize('s')
     preprocess('s', 's')

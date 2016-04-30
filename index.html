@@ -16,7 +16,7 @@
 <div id="map"></div>
 
 <script type="text/javascript">
-var mytiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 });
 var map = L.map('map');
@@ -37,7 +37,7 @@ $.getJSON("data.json", function(data) {
     });
     geojson.addTo(map)
 });
-map.addLayer(mytiles).setView([50.5, 5.0], 5);
+map.addLayer(tiles).setView([50.5, 5.0], 5);
 </script>
 </body>
 </html>

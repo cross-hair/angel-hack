@@ -31,7 +31,7 @@ class start_survillance(StreamListener):
         return True
 
 twitter_stream = Stream(auth, start_survillance())
-twitter_stream.filter(track=['#VIEWS'])
+twitter_stream.filter(track=['#HurumaTragedy'])
 
 if __name__ == '__main__':
     start_survillance().on_data()

@@ -1,69 +1,26 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+<meta charset="utf-8">
 <style>
-  #map-canvas {
-    height: 500px;
-  }
-  .gm-style-iw{ /* infowindow */
-    width: 200px;
-  }
+
+circle.outer {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+circle.points{
+  fill: none;
+  stroke: red;
+}
+
+circle.bigPoints{
+  fill: none;
+}
+
 </style>
-<div id="map-canvas"></div>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<script>
-  $(document).ready(function () {
-    var defaultLatLng = new google.maps.LatLng(-25.975769, 32.582499); // Default
-    if (navigator.geolocation) {
-        function success(pos) {
-            // Location found, show map with these coordinates
-            drawMap(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-        }
-        function fail(error) {
-            drawMap(defaultLatLng); // Failed to find location, show default map
-        }
-        // Find the users current position.  Cache the location for 5 minutes, timeout after 6 seconds
-        navigator.geolocation.getCurrentPosition(success, fail, {
-            maximumAge: 500000,
-            enableHighAccuracy: true,
-            timeout: 6000
-        });
-    } else {
-        drawMap(defaultLatLng); // No geolocation support, show default map
-    }
-    function drawMap(latlng) {
-        var myOptions = {
-            zoom: 10,
-            center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
-        // place the infowindow.  Invisible, without content.
-        var infowindow = new google.maps.InfoWindow({
-            content: '',
-        });
-        //READ FROM JSON
-        $.getJSON('data.json', function (data) {
-            $.each(data.markers, function (i, marker_data) {
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(marker_data.latitude, marker_data.longitude),
-                    map: map,
-                    title: marker_data.title,
-                });
-                // when the client clicks on a marker we set the content and bind the position to the marker
-                google.maps.event.addListener(marker, 'click', function() {
-                  infowindow.setContent(marker_data.address);
-                  infowindow.setPosition(this.getPosition())
-                  infowindow.setMap(map);
-                });
-            });
-        });
-    }
-  });
-</script>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+<script src="data.js" type="text/javascript"></script>
 </body>
-</html>
